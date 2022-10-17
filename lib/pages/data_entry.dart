@@ -11,6 +11,8 @@ class DataEntry extends StatefulWidget {
 class _DataEntryState extends State<DataEntry> {
 
   late DateTime startTime;
+  late int points;
+
 
   void startCountdown() {
     Future.delayed(Duration(seconds: 150), () {
@@ -23,6 +25,7 @@ class _DataEntryState extends State<DataEntry> {
   void initState() {
     super.initState();
     startTime = DateTime.now();
+    points = 0;
     startCountdown();
   }
 
@@ -34,8 +37,32 @@ class _DataEntryState extends State<DataEntry> {
     ]);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Text('Data Entry Here'),
+      backgroundColor: Colors.grey[400],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(5),
+                  backgroundColor: MaterialStateProperty.all(Colors.white)
+                ),
+                color: Colors.black,
+                icon: Icon(
+                  Icons.plus_one,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
+        ],
+      ),
     );
   }
 }

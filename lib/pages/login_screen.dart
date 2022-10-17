@@ -69,6 +69,7 @@ class _LoginState extends State<Login> {
                 useQR = true;
               },
               child: Text('Login Without Internet'),
+              // TODO: Make the app then display the 6 teams that can be scouted
             ),
           ],
         ),

@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
                   Image.asset('assets/logo.png'),
                   SizedBox(width: 10,),
                   Text(
-                    'Scouting app',
+                    'Scouting App 2022',
                     style: TextStyle(
                       fontSize: 30,
                       color: Colors.white,
