@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frc_scouting/pages/data_entry.dart';
 import 'package:frc_scouting/pages/home_screen.dart';
 import 'package:frc_scouting/pages/loading_screen.dart';
 import 'package:frc_scouting/pages/login_screen.dart';
@@ -13,7 +14,8 @@ void main() {
     routes: {
       '/': (context) => Loading(),
       '/home': (context) => Home(),
-      '/login': (context) => Login()
+      '/login': (context) => Login(),
+      '/data_entry': (context) => DataEntry(),
     },
   ));
 }
