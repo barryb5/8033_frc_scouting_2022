@@ -4,8 +4,12 @@ import 'package:frc_scouting/pages/loading_screen.dart';
 import 'package:frc_scouting/pages/login_screen.dart';
 
 void main() {
+  // runApp(MaterialApp(
+  //   home: Home(),
+  // ));
+
   runApp(MaterialApp(
-    initialRoute: '/home',
+    initialRoute: '/',
     routes: {
       '/': (context) => Loading(),
       '/home': (context) => Home(),

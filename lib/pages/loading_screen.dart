@@ -10,20 +10,40 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
 
+  void getData() async {
+    // Waits for screen to build?
+    await Future.delayed(Duration(milliseconds: 1), () {});
+    Navigator.pushReplacementNamed((context), '/home');
+  }
+
   @override
   void initState() {
-    Navigator.pushReplacementNamed((context), '/home');
+    super.initState();
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[900],
-      body: Center(
-        child: SpinKitFadingCube(
-          color: Colors.white,
-          size: 50,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Loading',
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(height: 25,),
+          Center(
+            child: SpinKitFadingCube(
+              color: Colors.white,
+              size: 50,
+            ),
+          ),
+        ],
       ),
     );  }
 }
