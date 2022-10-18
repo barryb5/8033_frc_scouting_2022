@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/point.dart';
+// No longer used, using event instead
 class Point {
 
-  bool success;
+  String success;
   int timeFromStart;
   int position;
 

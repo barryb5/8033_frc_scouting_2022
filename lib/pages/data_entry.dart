@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frc_scouting/services/point.dart';
+import 'package:frc_scouting/services/event.dart';
+
+import '../services/event_types.dart';
 
 class DataEntry extends StatefulWidget {
   const DataEntry({Key? key}) : super(key: key);
@@ -12,22 +14,7 @@ class DataEntry extends StatefulWidget {
 class _DataEntryState extends State<DataEntry> {
 
   late DateTime startTime;
-  List<Point> points = [];
-
-  void startCountdown() {
-    Future.delayed(Duration(seconds: 150), () {
-      // TODO: Create and go to end screen
-      Navigator.pushReplacementNamed((context), '');
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startTime = DateTime.now();
-    // startCountdown();
-  }
-
+  late bool brokeDown;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -67,8 +54,8 @@ class _DataEntryState extends State<DataEntry> {
                   // TODO: Custom clipper path for each shape
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 1, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 1, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -82,8 +69,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 2, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 2, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -97,8 +84,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 3, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 3, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -112,8 +99,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 4, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 4, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -135,8 +122,8 @@ class _DataEntryState extends State<DataEntry> {
                   // TODO: Custom clipper path for each shape
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 5, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 5, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -150,8 +137,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 6, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 6, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -165,8 +152,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 7, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 7, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -180,8 +167,8 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 8, true));
-                      print(points.toString());
+                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 8, EventType.shotSuccess));
+                      print(events.toString());
                     },
                     child: Text(
                       'Add Event',
@@ -202,9 +189,30 @@ class _DataEntryState extends State<DataEntry> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Point temp = points[points.length - 1];
-                      points[points.length - 1] = Point(temp.timeFromStart, temp.position, false);
-                      print(points.toString());
+                      // Swap brokeDown
+                      setState(() {
+                        brokeDown = brokeDown ? false : true;
+                        events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 0, (brokeDown ? EventType.robotBecomesImmobile : EventType.robotBecomesMobile)));
+                        print('Broken State: ${events[events.length - 1].type}');
+                        print('Broke Down: $brokeDown');
+                      });
+                    },
+                    child: Text(
+                      'Robot Broke: $brokeDown',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: brokeDown ? Colors.red.withOpacity(.5) : Colors.green.withOpacity(.5),
+                        // Calculated with high precision so it doesn't accidentally go offscreen
+                        minimumSize: Size(addEventButtonWidth, missedButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Event temp = events[events.length - 1];
+                      events[events.length - 1] = Event(temp.timeFromStart, temp.position, EventType.shotMiss);
+                      print(events.toString());
                     },
                     child: Text(
                       'Make Missed',
@@ -213,9 +221,29 @@ class _DataEntryState extends State<DataEntry> {
                     style: ElevatedButton.styleFrom(
                         side: BorderSide(width: 3),
                         backgroundColor: Colors.grey.withOpacity(.5),
-                        // Calculated with high precision so it doesn't accidentally go offscreen
                         minimumSize: Size(addEventButtonWidth, missedButtonHeight)
                     ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed((context), '/postgame_data_entry');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      side: BorderSide(width: 3),
+                      backgroundColor: const Color(0xff491365),
+                      minimumSize: Size(addEventButtonWidth, missedButtonHeight)
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Next',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                        ),
+                      ],
+                    )
                   ),
                 ],
               )
@@ -224,5 +252,24 @@ class _DataEntryState extends State<DataEntry> {
         ),
       ),
     );
+  }
+
+  List<Event> events = [];
+
+  void startCountdown() {
+    print('Countdown starting');
+    Future.delayed(Duration(seconds: 155), () {
+      // TODO: Create and go to end screen
+      print('Gonna move now');
+      Navigator.pushReplacementNamed((context), '/postgame_data_entry');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTime = DateTime.now();
+    brokeDown = false;
+    startCountdown();
   }
 }
