@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/point.dart';
 class Point {
 
-  final String EVENT_ID = "Ball Success";
+  bool success;
   int timeFromStart;
   int position;
 
 
-  Point(this.timeFromStart, this.position);
+  Point(this.timeFromStart, this.position, this.success);
 
   String toString() {
-    return '$timeFromStart - $position';
+    return 'Time from start: $timeFromStart - Position: $position - Success: $success';
   }
 }

@@ -14,10 +14,6 @@ class _DataEntryState extends State<DataEntry> {
   late DateTime startTime;
   List<Point> points = [];
 
-  late double height;
-  late double width;
-
-
   void startCountdown() {
     Future.delayed(Duration(seconds: 150), () {
       // TODO: Create and go to end screen
@@ -29,7 +25,7 @@ class _DataEntryState extends State<DataEntry> {
   void initState() {
     super.initState();
     startTime = DateTime.now();
-    startCountdown();
+    // startCountdown();
   }
 
   @override
@@ -38,60 +34,193 @@ class _DataEntryState extends State<DataEntry> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+    // print('Height ${MediaQuery.of(context).size.height}');
+    // Doesn't matter as much
+    double addEventButtonWidth = (MediaQuery.of(context).size.width - 40) / 4;
+    // Meticulously calculated with desmos, the height of each button should be 0.378472222222 * phone height
+    double addEventButtonHeight = (MediaQuery.of(context).size.height) * 0.378472222222;
+    double topSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0364583333333;
+    double bottomSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0243055555556;
+    double missedButtonHeight = (MediaQuery.of(context).size.height) * 0.0972222222222;
 
-    width = (MediaQuery.of(context).size.width-80)/4;
-    height = (MediaQuery.of(context).size.height-100)/2;
+    // print('Button Height $addEventButtonWidth');
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/gameboard_cropped.png')
-          )
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: height,
-                  width: width,
-                  // padding: EdgeInsets.fromLTRB(vertical: 40, horizontal: 10),
-                  padding: EdgeInsets.fromLTRB(5, 80, 5, 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.red,
-                    border: Border.all(color: Colors.black)
-                  ),
-                  child: IconButton(
+      // 35 Pixels go to safe area aka 0.0850694444444 of the height
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/gameboard_cropped.png'),
+                alignment: Alignment.topCenter
+              )
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: topSizedBoxHeight),
+              ButtonBar(
+                buttonPadding: EdgeInsets.zero,
+                alignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // TODO: Custom clipper path for each shape
+                  ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 1));
-                        print(points.toString());
-                        print(points);
-                      });
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 1, true));
+                      print(points.toString());
                     },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(5),
-                      foregroundColor: MaterialStateProperty.all(Colors.green),
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
                     ),
-                    color: Colors.black,
-                    icon: Icon(Icons.plus_one,),
-                    iconSize: 30,
-                    splashRadius: 25,
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(height: height, width: width,)
-              ],
-            ),
-          ],
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 2, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 3, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 4, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                ],
+              ),
+              ButtonBar(
+                buttonPadding: EdgeInsets.zero,
+                alignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  // TODO: Custom clipper path for each shape
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 5, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 6, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 7, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      points.add(Point(DateTime.now().difference(startTime).inMilliseconds, 8, true));
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Add Event',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.redAccent.withOpacity(.5),
+                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: bottomSizedBoxHeight),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                buttonPadding: EdgeInsets.zero,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Point temp = points[points.length - 1];
+                      points[points.length - 1] = Point(temp.timeFromStart, temp.position, false);
+                      print(points.toString());
+                    },
+                    child: Text(
+                      'Make Missed',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        side: BorderSide(width: 3),
+                        backgroundColor: Colors.grey.withOpacity(.5),
+                        // Calculated with high precision so it doesn't accidentally go offscreen
+                        minimumSize: Size(addEventButtonWidth, missedButtonHeight)
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
