@@ -10,11 +10,22 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final loginController = TextEditingController();
   late bool useQR;
+  late bool loggedIn;
+  late String name;
 
   @override
   void initState() {
     super.initState();
     useQR = true;
+  }
+
+  void returnData() async {
+    Map<String, dynamic> returnInfo = {
+      "useQR": useQR,
+      "loggedIn": loggedIn,
+      'name': name,
+    };
+    Navigator.pop((context), returnInfo);
   }
 
   @override
@@ -47,8 +58,10 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   // TODO: If logged in properly, save profile and send login entry to firebase
                   if (users.containsValue(loginController.text)) {
-                    Navigator.pushReplacementNamed((context), '/data_entry');
                     useQR = false;
+                    loggedIn = true;
+                    name = loginController.text;
+                    returnData();
                   } else {
                     showDialog(
                       context: context,
@@ -65,8 +78,10 @@ class _LoginState extends State<Login> {
                 child: Text('Login')),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed((context), '/data_entry');
                 useQR = true;
+                loggedIn = false;
+                name = 'Not Added';
+                returnData();
               },
               child: Text('Login Without Internet'),
               // TODO: Make the app then display the 6 teams that can be scouted

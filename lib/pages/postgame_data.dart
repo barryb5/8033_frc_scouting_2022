@@ -18,12 +18,32 @@ class _PostGameDataState extends State<PostGameData> {
     'Traverse',
   ];
   bool didDefense = false;
+  final notesController = TextEditingController();
+
+  void returnData() async {
+    Map<String, dynamic> returnInfo = {
+      'challengeResult': dropDownValue,
+      'didDefense': didDefense,
+      'notes': notesController.text,
+    };
+    print('Popped post game');
+    Navigator.pop((context), returnInfo);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    notesController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
     ]);
     return Scaffold(
         backgroundColor: const Color(0xff491365),
@@ -124,9 +144,26 @@ class _PostGameDataState extends State<PostGameData> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              controller: notesController,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: 'Add Notes Here',
+                                hintStyle: TextStyle(
+                                  fontSize: 20,
+                                )
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
                               onPressed: () {
                                 // Save values and go to next page to generate qr code
+                                returnData();
                               },
                               child: Text(
                                 'Finished',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frc_scouting/pages/qrcode_screen.dart';
 import 'package:frc_scouting/services/game_data.dart';
 
 class Home extends StatefulWidget {
@@ -14,6 +15,9 @@ class _HomeState extends State<Home> {
   bool loggedIn = false;
   late int matchNumber;
   final matchNumberController = TextEditingController();
+  late Map<String, dynamic> loginInfo;
+  late Map<String, dynamic> fullMatchInfo;
+  late GameData gameData;
 
   @override
   void dispose() {
@@ -27,6 +31,8 @@ class _HomeState extends State<Home> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
     ]);
     return Scaffold(
       backgroundColor: const Color(0xff491365),
@@ -66,17 +72,30 @@ class _HomeState extends State<Home> {
               ),
               SizedBox(height: 10,),
               ElevatedButton.icon(
-                onPressed: () {
+                onPressed: () async {
                   if (loggedIn) {
                     // TODO: Make the button not pressable when textfield is empty
                     matchNumber = int.parse(matchNumberController.text);
                     matchNumberController.clear();
-                    Navigator.pushNamed((context), '/data_entry');
+                    loginInfo = {
+                      'useQR': false,
+                      'loggedIn': true,
+                      'name': 'Joe',
+                    };
                   } else { // If not logged in
                     matchNumber = int.parse(matchNumberController.text);
                     matchNumberController.clear();
-                    Navigator.pushNamed((context), '/login');
+                    loginInfo = await Navigator.pushNamed((context), '/login') as Map<String, dynamic>;
                   }
+                  fullMatchInfo = await Navigator.pushNamed((context), '/start_page') as Map<String, dynamic>;
+
+                  // Add all the gamedata to the gamedata object
+                  // TODO: Assign team number and get scouter name
+                  gameData = GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes']);
+                  setState(() {
+                    print(gameData.toString());
+                    QRCodeScreen(gameData: gameData,);
+                  });
                 },
                 style: ButtonStyle(
                   elevation: MaterialStateProperty.all(5),

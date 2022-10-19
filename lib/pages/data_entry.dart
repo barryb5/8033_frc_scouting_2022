@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/event.dart';
-
 import '../services/event_types.dart';
 
 class DataEntry extends StatefulWidget {
@@ -15,6 +14,36 @@ class _DataEntryState extends State<DataEntry> {
 
   late DateTime startTime;
   late bool brokeDown;
+
+  void returnData() async {
+    Map<String, dynamic> returnInfo = {
+      'startTime': startTime,
+      'events': events,
+    };
+    print('Popped data entry');
+    Navigator.pop((context), returnInfo);
+  }
+
+  List<Event> events = [];
+
+  void startCountdown() {
+    print('Countdown starting');
+    Future.delayed(Duration(seconds: 155), () {
+      // TODO: Create and go to end screen
+      print('Gonna move now');
+      returnData();
+      // Navigator.pushReplacementNamed((context), '/postgame_data_entry');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTime = DateTime.now();
+    brokeDown = false;
+    startCountdown();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -27,7 +56,7 @@ class _DataEntryState extends State<DataEntry> {
     // Meticulously calculated with desmos, the height of each button should be 0.378472222222 * phone height
     double addEventButtonHeight = (MediaQuery.of(context).size.height) * 0.378472222222;
     double topSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0364583333333;
-    double bottomSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0243055555556;
+    double bottomSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0203055555556;
     double missedButtonHeight = (MediaQuery.of(context).size.height) * 0.0972222222222;
 
     // print('Button Height $addEventButtonWidth');
@@ -252,24 +281,5 @@ class _DataEntryState extends State<DataEntry> {
         ),
       ),
     );
-  }
-
-  List<Event> events = [];
-
-  void startCountdown() {
-    print('Countdown starting');
-    Future.delayed(Duration(seconds: 155), () {
-      // TODO: Create and go to end screen
-      print('Gonna move now');
-      Navigator.pushReplacementNamed((context), '/postgame_data_entry');
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startTime = DateTime.now();
-    brokeDown = false;
-    startCountdown();
   }
 }
