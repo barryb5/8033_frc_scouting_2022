@@ -46,7 +46,8 @@ class GameData {
     int totalPages = (events.events.length/10).ceil();
 
     for (int i = 0; i < totalPages; i++) {
-      returnJson.add('{"header":{"UUID":"${uuid.v4()}","eventNumber":"0","matchNumber":"$matchNumber","teamNumber":"$teamNumber","scouterName":"$scouterName","pageNumber":"$i","totalPages":"$totalPages","startTime":"$startTime"},"events":{"event":[${events.manualJson(i)}]}}');
+      // Did this ^ just so pagenumbers and totalpages make more sense when being looked at
+      returnJson.add('{"header":{"UUID":"${uuid.v4()}","eventNumber":"0","matchNumber":"$matchNumber","teamNumber":"$teamNumber","scouterName":"$scouterName","pageNumber":"${i+1}","totalPages":"$totalPages","startTime":"$startTime"},"events":{"event":[${events.manualJson(i)}]}}');
     }
 
     return returnJson;

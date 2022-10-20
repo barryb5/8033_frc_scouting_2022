@@ -32,7 +32,7 @@ class Events {
     String returnEvents = '';
 
     for (int i = page*10; i < (page*10)+10 && i < eventsAsList.length; i++) {
-      print('When: $returnEvents');
+      // print('When: $returnEvents');
       returnEvents = returnEvents + '{"timeSince":"${eventsAsList.elementAt(i).timeFromStart}","type":"${eventsAsList.elementAt(i).type}","pos":"${eventsAsList.elementAt(i).position}"},';
     }
     // TODO: returnEvents is getting cut off randomly for some reason
