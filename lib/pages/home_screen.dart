@@ -92,9 +92,9 @@ class _HomeState extends State<Home> {
                   // Add all the gamedata to the gamedata object
                   // TODO: Assign team number and get scouter name
                   gameData = GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes']);
-                  setState(() {
+                  setState(() async {
                     print(gameData.toString());
-                    QRCodeScreen(gameData: gameData,);
+                    Navigator.pushNamed((context), '/qrcode_screen', arguments: gameData);
                   });
                 },
                 style: ButtonStyle(

@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:convert';
+import 'package:frc_scouting/services/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/event.dart';
@@ -16,9 +19,14 @@ class _DataEntryState extends State<DataEntry> {
   late bool brokeDown;
 
   void returnData() async {
+    Map<String, dynamic> eventsMap = Map.fromIterable(events, key: (e) => e.timeFromStart.toString(), value: (e) => e);
+    Events eventsObject = Events(events);
+
+    // String jsonEventsString = ;
+
     Map<String, dynamic> returnInfo = {
       'startTime': startTime,
-      'events': events,
+      'events': jsonEncode(events),
     };
     print('Popped data entry');
     Navigator.pop((context), returnInfo);
@@ -255,7 +263,7 @@ class _DataEntryState extends State<DataEntry> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed((context), '/postgame_data_entry');
+                      returnData();
                     },
                     style: ElevatedButton.styleFrom(
                       side: BorderSide(width: 3),

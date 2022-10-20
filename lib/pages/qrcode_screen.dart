@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/game_data.dart';
+import 'dart:convert';
 
 class QRCodeScreen extends StatefulWidget {
-  final GameData gameData;
-  const QRCodeScreen({Key? key, required this.gameData}) : super(key: key);
+  const QRCodeScreen({super.key});
 
   @override
   State<QRCodeScreen> createState() => _QRCodeScreenState();
@@ -12,12 +12,16 @@ class QRCodeScreen extends StatefulWidget {
 
 class _QRCodeScreenState extends State<QRCodeScreen> {
 
-  void generateQRCode() {
-
+  void generateQRCode(GameData gameData) {
+    print(gameData);
+    String JSONString = json.encode(gameData);
+    print(JSONString);
   }
 
   @override
   Widget build(BuildContext context) {
+    final GameData gameData = ModalRoute.of(context)!.settings.arguments as GameData;
+    generateQRCode(gameData);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

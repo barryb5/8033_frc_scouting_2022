@@ -42,8 +42,6 @@ class _PostGameDataState extends State<PostGameData> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
     ]);
     return Scaffold(
         backgroundColor: const Color(0xff491365),

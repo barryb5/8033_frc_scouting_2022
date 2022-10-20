@@ -5,9 +5,9 @@ import 'package:frc_scouting/services/point.dart';
 import 'event_types.dart';
 class Event {
 
-  EventType type;
-  int timeFromStart;
-  int position;
+  late EventType type;
+  late int timeFromStart;
+  late int position;
 
 
   Event(this.timeFromStart, this.position, this.type);
@@ -15,4 +15,15 @@ class Event {
   String toString() {
     return 'Time from start: $timeFromStart - Position: $position - Success: $type';
   }
+
+  Event.fromJson(Map<String, dynamic> json);
+
+
+  Map<String, dynamic> toJson() {
+      return {
+        'timeSinceInitialEpoch': timeFromStart,
+        'type': type,
+        'position': position,
+      };
+    }
 }

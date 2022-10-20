@@ -22,7 +22,7 @@ void main() {
       '/data_entry': (context) => DataEntry(),
       '/postgame_data_entry': (context) => PostGameData(),
       '/start_page': (context) => StartPage(),
-      // '/qrcode_screen': (context) => QRCodeScreen(),
+      '/qrcode_screen': (context) => QRCodeScreen(),
     },
   ));
 }
