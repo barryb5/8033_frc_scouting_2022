@@ -19,14 +19,9 @@ class _DataEntryState extends State<DataEntry> {
   late bool brokeDown;
 
   void returnData() async {
-    Map<String, dynamic> eventsMap = Map.fromIterable(events, key: (e) => e.timeFromStart.toString(), value: (e) => e);
-    Events eventsObject = Events(events);
-
-    // String jsonEventsString = ;
-
     Map<String, dynamic> returnInfo = {
       'startTime': startTime,
-      'events': jsonEncode(events),
+      'events': Events(events),
     };
     print('Popped data entry');
     Navigator.pop((context), returnInfo);

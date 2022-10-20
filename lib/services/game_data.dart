@@ -1,6 +1,7 @@
 import 'package:frc_scouting/services/event.dart';
 import 'package:intl/intl.dart';
 import 'package:frc_scouting/services/events.dart';
+import 'package:uuid/uuid.dart';
 
 class GameData {
 
@@ -37,5 +38,17 @@ class GameData {
       'defense': defense,
       'notes': notes,
     };
+  }
+
+  List<String> manualJson() {
+    var uuid = Uuid();
+    List<String> returnJson = [];
+    int totalPages = (events.events.length/10).ceil();
+
+    for (int i = 0; i < totalPages; i++) {
+      returnJson.add('{"header":{"UUID":"${uuid.v4()}","eventNumber":"0","matchNumber":"$matchNumber","teamNumber":"$teamNumber","scouterName":"$scouterName","pageNumber":"$i","totalPages":"$totalPages","startTime":"$startTime"},"events":{"event":[${events.manualJson(i)}]}}');
+    }
+
+    return returnJson;
   }
 }

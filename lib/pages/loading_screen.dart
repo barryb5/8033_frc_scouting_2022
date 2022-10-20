@@ -13,7 +13,7 @@ class _LoadingState extends State<Loading> {
 
   void getData() async {
     // Waits for screen to build?
-    // TODO: Get any api data and load anything else here
+    // TODO: Get any api data and load preset data from cloud here
     await Future.delayed(Duration(milliseconds: 1), () {});
 
 
