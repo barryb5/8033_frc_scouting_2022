@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/game_data.dart';
 import 'dart:convert';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'dart:ui' as ui;
+import 'dart:io';
+
 
 class QRCodeScreen extends StatefulWidget {
   const QRCodeScreen({super.key});
@@ -15,23 +19,24 @@ class QRCodeScreen extends StatefulWidget {
 class _QRCodeScreenState extends State<QRCodeScreen> {
 
   late int pageNumber;
+  late String JSONString;
+  late GameData gameData;
+  late List<String> jsonData;
+  final GlobalKey globalKey = GlobalKey();
 
-  void generateQRCode(GameData gameData) {
-    print(gameData);
-    String JSONString = json.encode(gameData);
-    print(JSONString);
+  @override
+  void initState() {
+    pageNumber = 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    final GameData gameData = ModalRoute.of(context)!.settings.arguments as GameData;
-    List<String> jsonData = gameData.manualJson();
+    gameData = ModalRoute.of(context)!.settings.arguments as GameData;
+    jsonData = gameData.manualJson();
+
     print('Page Number: $pageNumber');
     print(jsonData.elementAt(pageNumber).length);
     print(jsonData.length);
-
-    pageNumber = 0;
-
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -77,14 +82,9 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               SizedBox(height: 10,),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Make page numbers work properly
-                  if (pageNumber == jsonData.length-1) {
-                    pageNumber = 0;
-                  } else {
-                    pageNumber++;
-                  }
                   setState(() {
-
+                    pageNumber++;
+                    pageNumber = pageNumber % jsonData.length;
                   });
                 },
                 child: Text(
@@ -99,8 +99,14 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               ),
               SizedBox(height: 10,),
               ElevatedButton(
-                onPressed: () {
-                  // TODO: Save QR codes to folder here
+                onPressed: () async {
+                  // TODO: Save QR codes to folder here, currently just writing
+                  for (int i = 0; i < jsonData.length; i++) {
+                  //   _capture(i);
+                    File qrcodeFile = File('saved_gamedata/${gameData.uuid.toString()}_$i.json');
+                    qrcodeFile.writeAsString('${jsonData.elementAt(i)}');
+                  }
+
                   return;
                 },
                 child: Text(
@@ -118,5 +124,18 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _capture(int pageNum) async {
+
+    final RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
+    final ui.Image image = await boundary.toImage();
+    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final bytes = byteData?.buffer.asUint8List();
+
+    final qrcodeFile = File('saved_qr/${gameData.uuid}_$pageNum.png');
+    qrcodeFile.writeAsBytes(bytes!);
+
+    // do stuff with your file qrcodeFile.path()...
   }
 }

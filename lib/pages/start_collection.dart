@@ -13,6 +13,8 @@ class _StartPageState extends State<StartPage> {
   late Map<String, dynamic> matchData;
   late Map<String, dynamic> postMatchData;
 
+  bool sideways = true;
+
   void returnData() async {
     print('Returning data');
     Map<String, dynamic> fullMatchData = {};
@@ -27,7 +29,21 @@ class _StartPageState extends State<StartPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
     ]);
+
+    if (sideways) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xff491365),
@@ -58,7 +74,13 @@ class _StartPageState extends State<StartPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () async {
+                      setState(() {
+                        sideways = true;
+                      });
                       matchData = await Navigator.pushNamed((context), '/data_entry') as Map<String, dynamic>;
+                      setState(() {
+                        sideways = false;
+                      });
                       postMatchData = await Navigator.pushNamed((context), '/postgame_data_entry') as Map<String, dynamic>;
                       print('Got here');
                       returnData();

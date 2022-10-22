@@ -14,7 +14,7 @@ void main() {
   // ));
 
   runApp(MaterialApp(
-    initialRoute: '/start_page',
+    initialRoute: '/',
     routes: {
       '/': (context) => Loading(),
       '/home': (context) => Home(),

@@ -9,9 +9,11 @@ class PostGameData extends StatefulWidget {
 }
 
 class _PostGameDataState extends State<PostGameData> {
-  String dropDownValue = 'Didn\'t Climb';
+  String dropDownValue = 'Climbing Challenge';
   List<String> items = [
+    'Climbing Challenge',
     'Didn\'t Climb',
+    'Failed Climb',
     'Bottom Bar',
     'Middle Bar',
     'High Bar',
@@ -64,7 +66,6 @@ class _PostGameDataState extends State<PostGameData> {
                       alignment: Alignment.center,
                     ),
                   ),
-                  SizedBox(height: 30,),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -75,21 +76,11 @@ class _PostGameDataState extends State<PostGameData> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Climbing Challenge',
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: DropdownButton(
                               focusColor: Colors.white,
                               value: dropDownValue,
@@ -99,7 +90,10 @@ class _PostGameDataState extends State<PostGameData> {
                               ),
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  dropDownValue = newValue!;
+                                  if (newValue != items.elementAt(0)) {
+                                    dropDownValue = newValue!;
+                                    print(newValue);
+                                  }
                                 });
                               },
                               items: items.map((String item) {
@@ -117,7 +111,7 @@ class _PostGameDataState extends State<PostGameData> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -131,7 +125,7 @@ class _PostGameDataState extends State<PostGameData> {
                                   }
                                 ),
                                 Text(
-                                  'Did Defense',
+                                  'Defense',
                                   style: TextStyle(
                                     fontSize: 25,
                                     color: Colors.black,
@@ -141,7 +135,7 @@ class _PostGameDataState extends State<PostGameData> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: TextField(
                               controller: notesController,
                               style: TextStyle(
@@ -157,11 +151,25 @@ class _PostGameDataState extends State<PostGameData> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: ElevatedButton(
                               onPressed: () {
                                 // Save values and go to next page to generate qr code
-                                returnData();
+                                if (dropDownValue != items.elementAt(0)) {
+                                  returnData();
+                                } else {
+                                  // Tell user to input a climbing challenge status
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        // Retrieve the text that the user has entered by using the
+                                        // TextEditingController.
+                                        content: Text('Please choose a value from the climbing challenge dropdown'),
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: Text(
                                 'Finished',

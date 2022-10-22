@@ -60,60 +60,79 @@ class _HomeState extends State<Home> {
               ),
               SizedBox(height: 50,),
               TextField(
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                // TODO: Make the font white
                 controller: matchNumberController,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
+                  FilteringTextInputFormatter.digitsOnly,
                 ], // Only numbers can be entered
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0),),
+                    borderSide: BorderSide(color: Colors.white, width: 3, ),
+                  ),
                   hintText: 'Enter Match Number',
+                  hintStyle: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(height: 10,),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  if (loggedIn) {
-                    // TODO: Make the button not pressable when textfield is empty
-                    matchNumber = int.parse(matchNumberController.text);
-                    matchNumberController.clear();
-                    loginInfo = {
-                      'useQR': false,
-                      'loggedIn': true,
-                      'name': 'Joe',
-                    };
-                  } else { // If not logged in
-                    matchNumber = int.parse(matchNumberController.text);
-                    matchNumberController.clear();
-                    loginInfo = await Navigator.pushNamed((context), '/login') as Map<String, dynamic>;
-                  }
-                  fullMatchInfo = await Navigator.pushNamed((context), '/start_page') as Map<String, dynamic>;
+              ValueListenableBuilder(valueListenable: matchNumberController, builder: (context, value, child) {
+                return ElevatedButton.icon(
+                  onPressed: value.text.isNotEmpty ? () async {
+                    if (loggedIn) {
+                      // TODO: Make the button not pressable when textfield is empty
+                      matchNumber = int.parse(matchNumberController.text);
+                      matchNumberController.clear();
+                      loginInfo = {
+                        'useQR': false,
+                        'loggedIn': true,
+                        'name': 'Joe',
+                      };
+                    } else { // If not logged in
+                      matchNumber = int.parse(matchNumberController.text);
+                      matchNumberController.clear();
+                      loginInfo = await Navigator.pushNamed((context), '/login') as Map<String, dynamic>;
+                    }
+                    fullMatchInfo = await Navigator.pushNamed((context), '/start_page') as Map<String, dynamic>;
 
-                  // Add all the gamedata to the gamedata object
-                  // TODO: Assign team number and get scouter name
-                  gameData = GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes']);
-                  setState(() async {
-                    print(gameData.toString());
-                    Navigator.pushNamed((context), '/qrcode_screen', arguments: gameData);
-                  });
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(5),
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                ),
-                label: Text(
-                  'Next',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
+                    // Add all the gamedata to the gamedata object
+                    // TODO: Assign team number and get scouter name
+                    gameData =    GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes']);
+                    setState(() async {
+                      print(gameData.toString());
+                      Navigator.pushNamed((context), '/qrcode_screen', arguments: gameData);
+                    });
+                  } : () {
+                    // If text box is empty
+                    showDialog(context: context, builder: (context)
+                    {
+                      return AlertDialog(content: Text('Please enter the match number'));
+                    });
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(5),
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
-                ),
-                icon: Icon(
+                  label: Text(
+                  'Next',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                  icon: Icon(
                   Icons.arrow_forward,
                   color: Colors.black,
                   size: 30,
-                ),
-              ),
+                  ),
+                );
+              }),
             ],
           ),
         ),

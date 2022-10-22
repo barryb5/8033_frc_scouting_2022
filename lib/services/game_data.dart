@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 class GameData {
 
+  late Uuid uuid;
   late int matchNumber;
   late int teamNumber;
   late String scouterName;
@@ -14,7 +15,10 @@ class GameData {
   late bool defense;
   late String notes;
 
-  GameData(this.matchNumber, this.teamNumber, this.scouterName, this.startTime, this.events, this.challenge, this.defense, this.notes);
+  GameData(this.matchNumber, this.teamNumber, this.scouterName, this.startTime, this.events, this.challenge, this.defense, this.notes){
+    uuid = Uuid();
+    uuid.v4();
+  }
 
   String toString() {
     return 'MatchNumber: $matchNumber'
@@ -41,13 +45,12 @@ class GameData {
   }
 
   List<String> manualJson() {
-    var uuid = Uuid();
     List<String> returnJson = [];
     int totalPages = (events.events.length/10).ceil();
 
     for (int i = 0; i < totalPages; i++) {
       // Did this ^ just so pagenumbers and totalpages make more sense when being looked at
-      returnJson.add('{"header":{"UUID":"${uuid.v4()}","eventNumber":"0","matchNumber":"$matchNumber","teamNumber":"$teamNumber","scouterName":"$scouterName","pageNumber":"${i+1}","totalPages":"$totalPages","startTime":"$startTime"},"events":{"event":[${events.manualJson(i)}]}}');
+      returnJson.add('{"header":{"UUID":"${uuid}","eventNumber":"0","matchNumber":"$matchNumber","teamNumber":"$teamNumber","scouterName":"$scouterName","pageNumber":"${i+1}","totalPages":"$totalPages","startTime":"$startTime"},"events":{"event":[${events.manualJson(i)}]}}');
     }
 
     return returnJson;
