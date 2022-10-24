@@ -7,6 +7,7 @@ import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:ui' as ui;
 import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 
 class QRCodeScreen extends StatefulWidget {
@@ -17,22 +18,42 @@ class QRCodeScreen extends StatefulWidget {
 }
 
 class _QRCodeScreenState extends State<QRCodeScreen> {
-
+  late Directory _appDocumentsDirectory;
   late int pageNumber;
-  late String JSONString;
+  late bool dataSaved;
   late GameData gameData;
   late List<String> jsonData;
   final GlobalKey globalKey = GlobalKey();
 
+  void saveData() async {
+    _appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    String path = _appDocumentsDirectory.path;
+    print('Path: $path');
+
+    for (int i = 0; i < jsonData.length; i++) {
+      var filePath = path + '${gameData.uuid.toString()}_$i.json';
+
+      File file = File(filePath);
+      file.writeAsString('${jsonData.elementAt(i)}');
+    }
+
+    // TODO: Toast popup
+    print('Saved');
+    dataSaved = true;
+
+  }
+
   @override
   void initState() {
     pageNumber = 0;
+    dataSaved = false;
   }
 
   @override
   Widget build(BuildContext context) {
     gameData = ModalRoute.of(context)!.settings.arguments as GameData;
     jsonData = gameData.manualJson();
+    saveData();
 
     print('Page Number: $pageNumber');
     print(jsonData.elementAt(pageNumber).length);
@@ -101,13 +122,20 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               ElevatedButton(
                 onPressed: () async {
                   // TODO: Save QR codes to folder here, currently just writing
-                  for (int i = 0; i < jsonData.length; i++) {
-                  //   _capture(i);
-                    File qrcodeFile = File('saved_gamedata/${gameData.uuid.toString()}_$i.json');
-                    qrcodeFile.writeAsString('${jsonData.elementAt(i)}');
+                  if (!dataSaved) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          // Retrieve the text that the user has entered by using the
+                          // TextEditingController.
+                          content: Text('Please wait for files to save'),
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.pop((context));
                   }
-
-                  return;
                 },
                 child: Text(
                   'Done',
