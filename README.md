@@ -5,7 +5,7 @@ Barry
 - QR Code Scanning for Presets
    - QR Tokens
 - Create Presets Class
-✓ save data to JSON file on disk, even if closed app
+- ~~save data to JSON file on disk, even if closed app~~
 - Open Previous JSON files as QR codes
 - Fix the login screen
    - Get rid of 'Login without internet" button
