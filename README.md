@@ -15,7 +15,6 @@ Jacob
 - Come up with a better design than three buttons on the bottom (move to top?)
 - Test UI on iPhone devices
 - Verify with Apple HIG and other restrictions
-
 - Robot broke into modifier
 - Convert to Template app
 
