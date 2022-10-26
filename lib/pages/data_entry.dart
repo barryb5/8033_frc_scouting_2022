@@ -14,7 +14,6 @@ class DataEntry extends StatefulWidget {
 }
 
 class _DataEntryState extends State<DataEntry> {
-
   late DateTime startTime;
   late bool brokeDown;
 
@@ -56,231 +55,60 @@ class _DataEntryState extends State<DataEntry> {
     // Doesn't matter as much
     double addEventButtonWidth = (MediaQuery.of(context).size.width - 40) / 4;
     // Meticulously calculated with desmos, the height of each button should be 0.378472222222 * phone height
-    double addEventButtonHeight = (MediaQuery.of(context).size.height) * 0.378472222222;
-    double topSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0364583333333;
-    double bottomSizedBoxHeight = (MediaQuery.of(context).size.height) * 0.0203055555556;
-    double missedButtonHeight = (MediaQuery.of(context).size.height) * 0.0972222222222;
+    double addEventButtonHeight =
+        (MediaQuery.of(context).size.height) * 0.378472222222;
+    double topSizedBoxHeight =
+        (MediaQuery.of(context).size.height) * 0.0364583333333;
+    double bottomSizedBoxHeight =
+        (MediaQuery.of(context).size.height) * 0.0203055555556;
+    double missedButtonHeight =
+        (MediaQuery.of(context).size.height) * 0.0972222222222;
 
     // print('Button Height $addEventButtonWidth');
+
+    InkWell createAddEventButtonWithShotSuccess(int position) {
+      return InkWell(
+        child: Container(
+          padding: const EdgeInsets.all(40),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.7),
+            borderRadius: BorderRadius.all(Radius.circular(15))),
+          child: Text(
+            "Add Event ${position}",
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ),
+        onTap: () {
+          events.add(Event(DateTime.now().difference(startTime).inMilliseconds,
+              position, EventType.shotSuccess));
+        },
+      );
+    }
 
     return Scaffold(
       // 35 Pixels go to safe area aka 0.0850694444444 of the height
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/gameboard_cropped.png'),
-                alignment: Alignment.topCenter
-              )
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: topSizedBoxHeight),
-              ButtonBar(
-                buttonPadding: EdgeInsets.zero,
-                alignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  // TODO: Custom clipper path for each shape
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 1, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/gameboard_cropped.png'),
+                    alignment: Alignment.topCenter)),
+            child: GridView.count(
+              padding: EdgeInsets.all(4.0),
+              crossAxisCount: 3,
+              shrinkWrap: true,
+              childAspectRatio: 1.3,
+              physics: NeverScrollableScrollPhysics(),
+              children: List.generate(6, (index) {
+                return Container(
+                  padding: const EdgeInsets.all(5),
+                  child: SizedBox(
+                    height: 200,
+                    child: Center(child: createAddEventButtonWithShotSuccess(index)),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 2, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 3, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 4, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                ],
-              ),
-              ButtonBar(
-                buttonPadding: EdgeInsets.zero,
-                alignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  // TODO: Custom clipper path for each shape
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 5, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 6, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 7, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 8, EventType.shotSuccess));
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Add Event',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.redAccent.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, addEventButtonHeight)
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: bottomSizedBoxHeight),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                buttonPadding: EdgeInsets.zero,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Swap brokeDown
-                      setState(() {
-                        brokeDown = brokeDown ? false : true;
-                        events.add(Event(DateTime.now().difference(startTime).inMilliseconds, 0, (brokeDown ? EventType.robotBecomesImmobile : EventType.robotBecomesMobile)));
-                        print('Broken State: ${events[events.length - 1].type}');
-                        print('Broke Down: $brokeDown');
-                      });
-                    },
-                    child: Text(
-                      'Robot Broke: $brokeDown',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: brokeDown ? Colors.red.withOpacity(.5) : Colors.green.withOpacity(.5),
-                        // Calculated with high precision so it doesn't accidentally go offscreen
-                        minimumSize: Size(addEventButtonWidth, missedButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Event temp = events[events.length - 1];
-                      events[events.length - 1] = Event(temp.timeFromStart, temp.position, EventType.shotMiss);
-                      print(events.toString());
-                    },
-                    child: Text(
-                      'Make Missed',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        side: BorderSide(width: 3),
-                        backgroundColor: Colors.grey.withOpacity(.5),
-                        minimumSize: Size(addEventButtonWidth, missedButtonHeight)
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      returnData();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      side: BorderSide(width: 3),
-                      backgroundColor: const Color(0xff491365),
-                      minimumSize: Size(addEventButtonWidth, missedButtonHeight)
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Next',
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                        ),
-                      ],
-                    )
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
+                );
+              }),
+            )),
       ),
     );
   }
