@@ -7,6 +7,7 @@ import 'package:frc_scouting/pages/postgame_data.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
 import 'package:frc_scouting/pages/start_collection.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
+import 'package:frc_scouting/pages/text_qrcode_screen.dart';
 
 void main() {
   // runApp(MaterialApp(
@@ -23,6 +24,7 @@ void main() {
       '/postgame_data_entry': (context) => PostGameData(),
       '/start_page': (context) => StartPage(),
       '/qrcode_screen': (context) => QRCodeScreen(),
+      '/text_qrcode_screen': (context) => TextQRCodeScreen(),
     },
   ));
 }

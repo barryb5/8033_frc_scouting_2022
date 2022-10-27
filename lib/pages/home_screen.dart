@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
 import 'package:frc_scouting/services/game_data.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -18,6 +22,7 @@ class _HomeState extends State<Home> {
   late Map<String, dynamic> loginInfo;
   late Map<String, dynamic> fullMatchInfo;
   late GameData gameData;
+  late Directory _appDocumentsDirectory;
 
   @override
   void dispose() {
@@ -25,9 +30,13 @@ class _HomeState extends State<Home> {
     matchNumberController.dispose();
     super.dispose();
   }
+  Future<void> getDirectory() async {
+    _appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  }
 
   @override
   Widget build(BuildContext context) {
+    getDirectory();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -103,7 +112,7 @@ class _HomeState extends State<Home> {
 
                     // Add all the gamedata to the gamedata object
                     // TODO: Assign team number and get scouter name
-                    gameData =    GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes']);
+                    gameData = GameData(matchNumber, 254, loginInfo['name'], fullMatchInfo['startTime'], fullMatchInfo['events'], fullMatchInfo['challengeResult'], fullMatchInfo['didDefense'], fullMatchInfo['notes'], _appDocumentsDirectory);
                     setState(() async {
                       print(gameData.toString());
                       Navigator.pushNamed((context), '/qrcode_screen', arguments: gameData);
@@ -133,6 +142,31 @@ class _HomeState extends State<Home> {
                   ),
                 );
               }),
+              ElevatedButton.icon(
+                onPressed: () async {
+
+                  String path = _appDocumentsDirectory.path;
+                  List cached_data = Directory(path).listSync();
+
+                  Navigator.pushNamed((context), '/text_qrcode_screen', arguments: cached_data);
+                },
+                icon: Icon(
+                  Icons.qr_code,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                label: Text(
+                  'Generate Cached Data',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(5),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+              ),
             ],
           ),
         ),

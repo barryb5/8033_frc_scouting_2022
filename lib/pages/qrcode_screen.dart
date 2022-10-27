@@ -18,7 +18,6 @@ class QRCodeScreen extends StatefulWidget {
 }
 
 class _QRCodeScreenState extends State<QRCodeScreen> {
-  late Directory _appDocumentsDirectory;
   late int pageNumber;
   late bool dataSaved;
   late GameData gameData;
@@ -26,12 +25,11 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
   final GlobalKey globalKey = GlobalKey();
 
   void saveData() async {
-    _appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    String path = _appDocumentsDirectory.path;
+    String path = gameData.directory.path;
     print('Path: $path');
 
     for (int i = 0; i < jsonData.length; i++) {
-      var filePath = path + '${gameData.uuid.toString()}_$i.json';
+      var filePath = path + '/${gameData.uuid.toString()}_$i.txt';
 
       File file = File(filePath);
       file.writeAsString('${jsonData.elementAt(i)}');
@@ -152,18 +150,5 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _capture(int pageNum) async {
-
-    final RenderRepaintBoundary boundary = globalKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
-    final ui.Image image = await boundary.toImage();
-    final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    final bytes = byteData?.buffer.asUint8List();
-
-    final qrcodeFile = File('saved_qr/${gameData.uuid}_$pageNum.png');
-    qrcodeFile.writeAsBytes(bytes!);
-
-    // do stuff with your file qrcodeFile.path()...
   }
 }

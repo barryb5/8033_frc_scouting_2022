@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:frc_scouting/services/event.dart';
 import 'package:intl/intl.dart';
 import 'package:frc_scouting/services/events.dart';
@@ -14,8 +16,9 @@ class GameData {
   late String challenge;
   late bool defense;
   late String notes;
+  late Directory directory;
 
-  GameData(this.matchNumber, this.teamNumber, this.scouterName, this.startTime, this.events, this.challenge, this.defense, this.notes){
+  GameData(this.matchNumber, this.teamNumber, this.scouterName, this.startTime, this.events, this.challenge, this.defense, this.notes, this.directory){
     Uuid getuuid = Uuid();
     uuid = getuuid.v4();
   }
