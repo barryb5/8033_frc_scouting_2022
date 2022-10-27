@@ -22,3 +22,4 @@ Jacob
 - Custom Serializer
 - Switch from JSON to Custom Schema
 - Come up with a way to self-describe game-specific data
+- Better adapt Game Screen to larger aspect ratios - like the iPad Pro (12.9 inch) for example
