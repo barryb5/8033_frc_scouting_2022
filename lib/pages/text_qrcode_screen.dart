@@ -118,7 +118,7 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
                       children: [
                         SizedBox(height: 10,),
                         QrImage(
-                            data: data.elementAt(0),
+                            data: data.elementAt(pageNumber),
                             version: QrVersions.auto,
                             errorCorrectionLevel: QrErrorCorrectLevel.L,
                             size: (MediaQuery.of(context).size.width),
