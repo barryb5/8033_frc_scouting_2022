@@ -32,24 +32,20 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
     List<String> returnData = [];
 
     try {
-      // var file = File('/data/user/0/com.company.frc_scouting/app_flutter/84c8a2b9-a8e3-4c1e-b9fc-2d37e77e4e91_1.txt');
-      // String fileData = await file.readAsString();
-      // print('Cached Data: ${fileData}');
-      // returnData.add(fileData);
-
       for (int i = 0; i < cached_data.length; i++) {
         String filePath = cached_data[i].toString();
         print(filePath);
         if (cached_data[i].toString().contains('.txt')) {
-          var file = File(filePath);
+          var file = File(filePath.substring(7, filePath.length-1));
           String fileData = await file.readAsString();
           print('Cached Data: ${fileData}');
-          data.add(fileData);
+          returnData.add(fileData);
         }
       }
 
       return returnData;
     } catch (e) {
+      print('Problem: $e');
       throw 'Error with getting data';
     }
   }
@@ -67,16 +63,6 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
      * Bad practice, supposed to have a future variable in the initstate so it
      * doesn't try to look through the files each time you rebuild
      */
-    // cached_data.forEach((element) {
-    //   data.add(element.toString());
-    // });
-    // print('Data length: ${data.length}');
-
-
-
-    // print('Page Number: $pageNumber');
-    // print(data.elementAt(pageNumber).length);
-    // print(data.length);
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -94,7 +80,39 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
           child: FutureBuilder(
                 future: dataFuture,
                 builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasError) {
+                    return Scaffold(
+                      backgroundColor: Colors.red[700],
+                      body: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Something went wrong with fetching the data',
+                            style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: 25,),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop((context));
+                              },
+                              child: Text(
+                                'Return to Home Screen',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+
+                            )
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
                     data = snapshot.data!;
                     return Column(
                       children: [
