@@ -6,7 +6,6 @@ Barry
    - QR Tokens
 - Create Presets Class
 - ~~save data to JSON file on disk, even if closed app~~
-- Open Previous JSON files as QR codes
 - Fix the login screen
    - Get rid of 'Login without internet" button
 
@@ -17,6 +16,7 @@ Jacob
 - Verify with Apple HIG and other restrictions
 - Robot broke into modifier
 - Convert to Template app
+- Open Previous JSON files as QR codes
 
 ### FUTURE
 - Custom Serializer
