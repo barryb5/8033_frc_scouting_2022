@@ -10,10 +10,10 @@ Barry
    - Get rid of 'Login without internet" button
 
 Jacob
-- Remove borders around game screen
 - Come up with a better design than three buttons on the bottom (move to top?)
-- Test UI on iPhone devices
-- Verify with Apple HIG and other restrictions
+   - Test UI on iPhone devices
+   - Remove borders around game screen
+   - Verify with Apple HIG and other restrictions
 - Robot broke into modifier
 - Convert to Template app
 - Open Previous JSON files as QR codes
