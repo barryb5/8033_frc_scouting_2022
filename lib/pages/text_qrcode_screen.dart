@@ -35,7 +35,7 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
       for (int i = 0; i < cached_data.length; i++) {
         String filePath = cached_data[i].toString();
         print(filePath);
-        if (cached_data[i].toString().contains('.txt')) {
+        if (cached_data[i].toString().contains('_cachedqr.txt')) {
           var file = File(filePath.substring(7, filePath.length-1));
           String fileData = await file.readAsString();
           print('Cached Data: ${fileData}');

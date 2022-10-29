@@ -29,7 +29,7 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
     print('Path: $path');
 
     for (int i = 0; i < jsonData.length; i++) {
-      var filePath = path + '/${gameData.uuid.toString()}_$i.txt';
+      var filePath = path + '/${gameData.uuid.toString()}_${i}_cachedqr.txt';
 
       File file = File(filePath);
       file.writeAsString('${jsonData.elementAt(i)}');
