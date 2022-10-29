@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/services.dart';
+import 'package:frc_scouting/custom_widgets/loading_widget.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
@@ -34,27 +35,6 @@ class _LoadingState extends State<Loading> {
       DeviceOrientation.portraitDown,
     ]);
 
-    return Scaffold(
-      backgroundColor: Colors.blue[900],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Loading',
-            style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 25,),
-          Center(
-            child: SpinKitFadingCube(
-              color: Colors.white,
-              size: 50,
-            ),
-          ),
-        ],
-      ),
-    );
+    return LoadingWidget();
   }
 }
