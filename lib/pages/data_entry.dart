@@ -71,8 +71,8 @@ class _DataEntryState extends State<DataEntry> {
         child: Container(
           padding: const EdgeInsets.all(40),
           decoration: BoxDecoration(
-            color: Colors.blue.withOpacity(0.7),
-            borderRadius: BorderRadius.all(Radius.circular(15))),
+              color: Colors.blue.withOpacity(0.7),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           child: Text(
             "Add Event ${position}",
             style: TextStyle(fontSize: 20.0),
@@ -81,6 +81,7 @@ class _DataEntryState extends State<DataEntry> {
         onTap: () {
           events.add(Event(DateTime.now().difference(startTime).inMilliseconds,
               position, EventType.shotSuccess));
+          print(events.toString());
         },
       );
     }
@@ -104,7 +105,8 @@ class _DataEntryState extends State<DataEntry> {
                   padding: const EdgeInsets.all(5),
                   child: SizedBox(
                     height: 200,
-                    child: Center(child: createAddEventButtonWithShotSuccess(index)),
+                    child: Center(
+                        child: createAddEventButtonWithShotSuccess(index)),
                   ),
                 );
               }),
