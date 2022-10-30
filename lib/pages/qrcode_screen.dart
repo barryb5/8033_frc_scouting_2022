@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/game_data.dart';
 import 'dart:io';
-
 import '../views/frc_qrcode_view.dart';
 
 class QRCodeScreen extends StatefulWidget {
@@ -14,7 +13,7 @@ class QRCodeScreen extends StatefulWidget {
 
 class _QRCodeScreenState extends State<QRCodeScreen> {
   late int pageNumber;
-  late bool dataSaved;
+  late bool isDataSaved;
   late GameData gameData;
   late List<String> jsonData;
   final GlobalKey globalKey = GlobalKey();
@@ -32,13 +31,13 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
 
     // TODO: Toast popup
     print('Saved');
-    dataSaved = true;
+    isDataSaved = true;
   }
 
   @override
   void initState() {
     pageNumber = 0;
-    dataSaved = false;
+    isDataSaved = false;
   }
 
   @override
@@ -63,8 +62,14 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
               MediaQuery.of(context).padding.top,
           minWidth: MediaQuery.of(context).size.width,
         ),
-        child: FRCQrCodeView(
-            dataSaved: dataSaved, gameData: gameData, jsonData: jsonData),
+        child: Column(
+          children: [
+            FRCQrCodeView(
+                gameData: gameData,
+                jsonData: jsonData,
+                isDataSaved: isDataSaved),
+          ],
+        ),
       ),
     ));
   }

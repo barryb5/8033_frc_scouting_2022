@@ -12,6 +12,8 @@ import 'dart:ui' as ui;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
+import '../views/frc_qrcode_view.dart';
+
 
 class TextQRCodeScreen extends StatefulWidget {
   const TextQRCodeScreen({super.key});
@@ -114,6 +116,7 @@ class _TextQRCodeScreenState extends State<TextQRCodeScreen> {
                     );
                   } else if (snapshot.hasData) {
                     data = snapshot.data!;
+                    // return FRCQrCodeView(gameData: gameData, jsonData: jsonData);
                     return Column(
                       children: [
                         SizedBox(height: 10,),
