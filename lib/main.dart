@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frc_scouting/pages/data_entry.dart';
+import 'package:frc_scouting/pages/data_entry_screen.dart';
 import 'package:frc_scouting/pages/home_screen.dart';
 import 'package:frc_scouting/pages/loading_screen.dart';
 import 'package:frc_scouting/pages/login_screen.dart';
 import 'package:frc_scouting/pages/postgame_data.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
-import 'package:frc_scouting/pages/start_collection.dart';
+import 'package:frc_scouting/pages/start_collection_screen.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
 import 'package:frc_scouting/pages/text_qrcode_screen.dart';
 
