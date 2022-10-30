@@ -4,6 +4,7 @@ import 'package:frc_scouting/pages/home_screen.dart';
 import 'package:frc_scouting/pages/loading_screen.dart';
 import 'package:frc_scouting/pages/login_screen.dart';
 import 'package:frc_scouting/pages/postgame_data.dart';
+import 'package:frc_scouting/pages/qr_scanner.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
 import 'package:frc_scouting/pages/start_collection.dart';
 import 'package:frc_scouting/pages/qrcode_screen.dart';
@@ -25,6 +26,7 @@ void main() {
       '/start_page': (context) => StartPage(),
       '/qrcode_screen': (context) => QRCodeScreen(),
       '/text_qrcode_screen': (context) => TextQRCodeScreen(),
+      '/qr_scanner': (context) => QrView(),
     },
   ));
 }

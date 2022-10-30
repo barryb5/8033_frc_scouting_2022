@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frc_scouting/pages/qr_scanner.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -9,21 +11,22 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final loginController = TextEditingController();
-  late bool useQR;
   late bool loggedIn;
   late String name;
+  late int teamScouted;
+  late Barcode barcode;
 
   @override
   void initState() {
     super.initState();
-    useQR = true;
   }
 
   void returnData() async {
+    print(barcode.code);
     Map<String, dynamic> returnInfo = {
-      "useQR": useQR,
-      "loggedIn": loggedIn,
+      'loggedIn': loggedIn,
       'name': name,
+      'barcode': barcode,
     };
     Navigator.pop((context), returnInfo);
   }
@@ -51,41 +54,45 @@ class _LoginState extends State<Login> {
               controller: loginController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Login system here',
+                hintText: 'Enter Name Here',
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  // TODO: If logged in properly, save profile and send login entry to firebase
-                  if (users.containsValue(loginController.text)) {
-                    useQR = false;
-                    loggedIn = true;
-                    name = loginController.text;
-                    returnData();
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          // Retrieve the text that the user has entered by using the
-                          // TextEditingController.
-                          content: Text('Not a user'),
-                        );
-                      },
-                    );
-                  }
+            ValueListenableBuilder(valueListenable: loginController, builder: (context, value, child) {
+              return ElevatedButton.icon(
+                onPressed: value.text.isNotEmpty ? () async {
+                  // Open QR Scanner if not empty
+                  name = value.text;
+                  barcode = await Navigator.pushNamed((context), '/qr_scanner') as Barcode;
+                  returnData();
+                } : () {
+                  // If text box is empty
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text('Enter Your Name First'),
+                      );
+                    },
+                  );
                 },
-                child: Text('Login')),
-            ElevatedButton(
-              onPressed: () {
-                useQR = true;
-                loggedIn = false;
-                name = 'Not Added';
-                returnData();
-              },
-              child: Text('Login Without Internet'),
-              // TODO: Make the app then display the 6 teams that can be scouted
-            ),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(5),
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                label: Text(
+                  'Scan QR Token',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.arrow_forward,
+                  color: Colors.black,
+                  size: 30,
+                ),
+              );
+            }),
           ],
         ),
       ),

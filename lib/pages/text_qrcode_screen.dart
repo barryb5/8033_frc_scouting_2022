@@ -12,7 +12,7 @@ import 'dart:ui' as ui;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-import '../views/frc_qrcode_view.dart';
+import '../custom_widgets/frc_qrcode_view.dart';
 
 
 class TextQRCodeScreen extends StatefulWidget {

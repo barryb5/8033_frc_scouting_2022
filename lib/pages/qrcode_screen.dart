@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/game_data.dart';
 import 'dart:io';
-import '../views/frc_qrcode_view.dart';
+import '../custom_widgets/frc_qrcode_view.dart';
 
 class QRCodeScreen extends StatefulWidget {
   const QRCodeScreen({super.key});
