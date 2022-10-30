@@ -31,7 +31,7 @@ class _DataEntryState extends State<DataEntry> {
 
   void startCountdown() {
     print('Countdown starting');
-    Future.delayed(Duration(seconds: 155), () {
+    Future.delayed(Duration(seconds: 2), () {
       print('Gonna move now');
       returnData();
       // Navigator.pushReplacementNamed((context), '/postgame_data_entry');
