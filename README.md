@@ -2,8 +2,8 @@
 
 ## TODO
 Barry
-- QR Code Scanning for Presets
-   - QR Tokens
+- ~~QR Code Scanning for Presets~~
+   - QR Tokens need to be created and deserializable, json is probably easiest
 - Create Presets Class
 - ~~save data to JSON file on disk, even if closed app~~
 - Fix the login screen
