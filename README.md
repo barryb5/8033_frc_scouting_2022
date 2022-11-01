@@ -2,12 +2,15 @@
 
 ## TODO
 Barry
-- ~~QR Code Scanning for Presets~~
+- QR Code Scanning for Presets
+   - ~~Create scanner screen that can scan qr codes and return values~~
    - QR Tokens need to be created and deserializable, json is probably easiest
 - Create Presets Class
 - ~~save data to JSON file on disk, even if closed app~~
 - Fix the login screen
-   - Get rid of 'Login without internet" button
+   - ~~Implement QR token scanner as part of login system~~
+   - Make a dev testing autofill and skip button
+   - ~~Get rid of 'Login without internet" button~~
 
 Jacob
 - Come up with a better design than three buttons on the bottom (move to top?)
