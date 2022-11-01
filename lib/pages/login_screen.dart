@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:frc_scouting/pages/qr_scanner.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -22,7 +24,6 @@ class _LoginState extends State<Login> {
   }
 
   void returnData() async {
-    print(barcode.code);
     Map<String, dynamic> returnInfo = {
       'loggedIn': loggedIn,
       'name': name,
@@ -63,6 +64,8 @@ class _LoginState extends State<Login> {
                   // Open QR Scanner if not empty
                   name = value.text;
                   barcode = await Navigator.pushNamed((context), '/qr_scanner') as Barcode;
+                  print('Barcode: ${barcode.code}');
+                  loggedIn = true;
                   returnData();
                 } : () {
                   // If text box is empty

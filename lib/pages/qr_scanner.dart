@@ -28,10 +28,10 @@ class _QrViewState extends State<QrView> {
   void reassemble() async {
     // TODO: implement reassemble
     super.reassemble();
-    if (Platform.isAndroid) {
-      await controller?.pauseCamera();
-    }
-    controller!.resumeCamera();
+    // if (Platform.isAndroid) {
+    //   await controller?.pauseCamera();
+    // }
+    // controller!.resumeCamera();
   }
 
   Widget buildQrView(BuildContext context) => QRView(
@@ -138,12 +138,8 @@ class _QrViewState extends State<QrView> {
       this.controller = controller;
     });
 
-    controller.scannedDataStream.listen((event) => setState(() async {
+    controller.scannedDataStream.listen((event) => setState(() {
       barcode = event;
-      // if (barcode!.code!.isNotEmpty/* && has matching header data*/) {
-      //   // await controller.pauseCamera();
-      //   Navigator.pop((context), barcode!);
-      // }
     }));
   }
 
