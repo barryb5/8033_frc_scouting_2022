@@ -86,31 +86,33 @@ class _DataEntryState extends State<DataEntry> {
       );
     }
 
+    var gridView = Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/gameboard_cropped.png'),
+              alignment: Alignment.topCenter)),
+      child: GridView.count(
+        padding: EdgeInsets.all(4.0),
+        crossAxisCount: 3,
+        shrinkWrap: true,
+        childAspectRatio: 1.3,
+        physics: NeverScrollableScrollPhysics(),
+        children: List.generate(6, (index) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            child: SizedBox(
+              height: 200,
+              child: Center(child: createAddEventButtonWithShotSuccess(index)),
+            ),
+          );
+        }),
+      ),
+    );
+
     return Scaffold(
       // 35 Pixels go to safe area aka 0.0850694444444 of the height
       body: SafeArea(
-        child: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/gameboard_cropped.png'),
-                    alignment: Alignment.topCenter)),
-            child: GridView.count(
-              padding: EdgeInsets.all(4.0),
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              childAspectRatio: 1.3,
-              physics: NeverScrollableScrollPhysics(),
-              children: List.generate(6, (index) {
-                return Container(
-                  padding: const EdgeInsets.all(5),
-                  child: SizedBox(
-                    height: 200,
-                    child: Center(
-                        child: createAddEventButtonWithShotSuccess(index)),
-                  ),
-                );
-              }),
-            )),
+        child: gridView,
       ),
     );
   }
