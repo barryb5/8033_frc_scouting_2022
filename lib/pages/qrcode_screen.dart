@@ -3,11 +3,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:frc_scouting/services/game_data.dart';
 import 'dart:convert';
+import 'dart:async';
 import 'package:qr/qr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:ui' as ui;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class QRCodeScreen extends StatefulWidget {
@@ -24,7 +27,7 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
   late List<String> jsonData;
   final GlobalKey globalKey = GlobalKey();
 
-  void saveData() async {
+  void saveData(BuildContext context) async {
     String path = gameData.directory.path;
     print('Path: $path');
 
@@ -35,7 +38,44 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
       file.writeAsString('${jsonData.elementAt(i)}');
     }
 
-    // TODO: Toast popup
+    // TODO: Send api insert here
+    var client = new http.Client();
+    try {
+      // Example sending data, the teamkey and tournament key will coorelate to a specific match, which the data will be entered to
+      // await client.post(Uri.parse('http://10.0.0.34:4000/listTeams'),
+      //  headers: <String, String>{
+      //     'Content-Type': 'application/json; charset=UTF-8',
+      //  },
+      //  body: jsonEncode(<String, String>{
+      //    'teamKey': 'frc${gameData.teamNumber}',
+      //    'tournamentKey': //TODO: Preset tournament key
+      //    'data': gameData.getData()
+      //   }),
+      // );
+      var response = await client.get(Uri.parse('http://10.0.0.34:4000/listTeams'));
+
+      if (response.statusCode == 201) {
+        print('Its saul goodman');
+      }
+      print(response.body);
+    }
+    finally {
+      // Send another request to see if data was entered correctly
+
+      client.close();
+
+      Fluttertoast.showToast(
+          msg: "Sent Data",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+      // TODO: Toast popup
+    }
+
     print('Saved');
     dataSaved = true;
 
@@ -51,7 +91,10 @@ class _QRCodeScreenState extends State<QRCodeScreen> {
   Widget build(BuildContext context) {
     gameData = ModalRoute.of(context)!.settings.arguments as GameData;
     jsonData = gameData.manualJson();
-    saveData();
+
+    if (!dataSaved) {
+      saveData(context);
+    }
 
     print('Page Number: $pageNumber');
     print(jsonData.elementAt(pageNumber).length);
